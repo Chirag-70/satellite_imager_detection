@@ -1,0 +1,18 @@
+{
+  "primary_change_model": {
+    "name": "ChangeFormerV6 LEVIR-CD",
+    "official_repo": "https://github.com/wgcban/ChangeFormer",
+    "checkpoint": "https://github.com/wgcban/ChangeFormer/releases/download/v0.1.0/CD_ChangeFormerV6_LEVIR_b16_lr0.0001_adamw_train_test_200_linear_ce_multi_train_True_multi_infer_False_shuffle_AB_False_embed_dim_256.zip",
+    "status": "official checkpoint URL included; binary not fabricated"
+  },
+  "other_models": [
+    "BIT-CD",
+    "SNUNet-CD",
+    "U-Net",
+    "DeepLabV3+",
+    "SegFormer",
+    "SAM/SAMGeo",
+    "RemoteCLIP",
+    "YOLO/xView"
+  ]
+}

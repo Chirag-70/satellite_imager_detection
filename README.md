@@ -1,120 +1,48 @@
-# SIH 2026 PS168 — Streamlit Dead Reckoning Prototype
+# SIH26227 Analyst Prototype
 
-## Prototype
+## What this prototype does
 
-This project demonstrates a simplified PS168 dead-reckoning pipeline:
+- Uploads two temporal satellite/EO images (T1/T2)
+- Optional ECC-based co-registration
+- Image quality and alignment indicators
+- Hybrid RGB + edge change map
+- Edge comparison
+- Connected-component change-object extraction
+- Bounding-box visualization
+- Change-object CSV export
+- Analyst review status + notes
+- JSON evidence/audit record
+- ChangeFormer checkpoint download path
+- Explicit false-alarm warnings
 
-IMU
-↓
-Butterworth Filter
-↓
-ESKF + IEKF
-↓
-Consistency Fusion
-↓
-Dead Reckoning Trajectory
-↓
-OpenStreetMap Overlay
+## Run
 
-The AI/ML/TFLite speed model is intentionally disabled.
+    python -m venv .venv
+    .venv\Scripts\activate
+    pip install -r requirements.txt
+    streamlit run app.py
 
----
+## Important model note
 
-## Demo Route
+The guaranteed path in `app.py` is deterministic CV evidence. This is
+intentional: a random or unrelated pretrained checkpoint must not be presented
+as a validated satellite change detector.
 
-The built-in demo runs for approximately 60 seconds:
+The official ChangeFormer LEVIR-CD checkpoint is referenced in
+`models/download_models.py`. After downloading it, connect the official model
+implementation through `models/changeformer_adapter.py`.
 
-0–30 seconds:
-300 m straight
+## Input guidance
 
-30–31 seconds:
-approximately 90° right turn
+Best results require:
+- same AOI
+- same or comparable GSD/resolution
+- accurate temporal registration
+- limited cloud/haze
+- preferably comparable season and illumination
+- GeoTIFF/COG support can be added with rasterio/GDAL in the next version
 
-31–60 seconds:
-300 m straight
+## Scope
 
-The demo uses synthetic IMU-like data so that it can run without a phone.
-
----
-
-## Real IMU Input
-
-The current prototype accepts a CSV with:
-
-timestamp_ns
-accel_x
-accel_y
-accel_z
-gyro_x
-gyro_y
-gyro_z
-
-Example:
-
-timestamp_ns,accel_x,accel_y,accel_z,gyro_x,gyro_y,gyro_z
-
----
-
-## Installation
-
-Create environment:
-
-python -m venv .venv
-
-Windows:
-
-.venv\Scripts\activate
-
-Install:
-
-pip install -r requirements.txt
-
-Run:
-
-streamlit run app.py
-
----
-
-## Important Prototype Limitation
-
-Streamlit's Python backend does not automatically receive native Android SensorEvent
-data from the phone.
-
-Therefore the current real-data path is CSV-based.
-
-A later browser sensor bridge can be added for live phone motion sensors.
-
----
-
-## ESKF / IEKF Scope
-
-The included ESKF and IEKF are lightweight prototype propagation tracks.
-
-They are intended to demonstrate:
-
-- parallel state propagation
-- trajectory generation
-- ESKF/IEKF comparison
-- fusion
-- map visualization
-
-They are not yet a production-grade 3D inertial navigation implementation.
-
----
-
-## Map
-
-The prototype converts local XY displacement into latitude/longitude around a
-demo map center and displays the trajectory on OpenStreetMap tiles.
-
-The next implementation stage can add:
-
-- real road snapping
-- heading-aware map matching
-- road segment selection
-- turn constraints
-- GNSS initialization
-- offline OSM data
-- 3D quaternion state
-- accelerometer gravity compensation
-- bias estimation
+This is a research/demo prototype for SIH26227. It does not claim classified
+imagery access or operational intelligence accuracy.

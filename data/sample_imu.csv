@@ -1,8 +1,0 @@
-from core.sample_route import generate_sample_route
-
-df = generate_sample_route()
-
-df.to_csv(
-    "data/sample_imu.csv",
-    index=False
-)
